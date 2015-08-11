@@ -7,7 +7,9 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.xb.mobilesafe.SplashActivity" 
-     android:background="@drawable/luncher_bg">
+    android:background="@drawable/luncher_bg"
+    android:id="@+id/rl_root_splash"
+    >
 	<!-- 版本 -->
     <TextView
         android:id="@+id/tv_splash_version"
@@ -25,10 +27,22 @@
          />
     <!-- 等待条..... -->
     <ProgressBar 
+         android:id="@+id/loading_progressbar"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_below="@id/tv_splash_version"
          android:layout_centerHorizontal="true"
         />
+    
+    	<TextView 
+		    android:id="@+id/tv_uplaod_process"
+		    android:layout_below="@id/loading_progressbar"
+		    android:layout_centerHorizontal="true"
+		    android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+		    android:textColor="#000000"
+		    android:textSize="18sp"
+		    android:visibility="gone"
+	    />
 
 </RelativeLayout>

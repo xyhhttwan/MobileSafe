@@ -16,12 +16,13 @@ public class HttpUtil {
 		
 		if(!NetworkUtils.isNetWorkConnect()){
 			ShowText.show("ÍøÂçÁ¬½ÓÒì³£.");
+			listener.onError(new Exception());
 			return;
 		}
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				
+				Looper.prepare();
 				HttpURLConnection connection= null;
 				try {
 					LogUtil.e(TAG, "request address:----->"+address);
