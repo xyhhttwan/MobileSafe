@@ -235,6 +235,7 @@ int drawable abc_textfield_searchview_holo_light 0x7f020054
 int drawable abc_textfield_searchview_right_holo_dark 0x7f020055
 int drawable abc_textfield_searchview_right_holo_light 0x7f020056
 int drawable ic_launcher 0x7f020057
+int drawable luncher_bg 0x7f020058
 int id action_bar 0x7f09001c
 int id action_bar_activity_content 0x7f090001
 int id action_bar_container 0x7f09001b
@@ -246,7 +247,7 @@ int id action_context_bar 0x7f09001d
 int id action_menu_divider 0x7f090002
 int id action_menu_presenter 0x7f090003
 int id action_mode_close_button 0x7f090024
-int id action_settings 0x7f09003c
+int id action_settings 0x7f09003d
 int id activity_chooser_view_content 0x7f090025
 int id always 0x7f09000f
 int id beginning 0x7f090016
@@ -293,6 +294,7 @@ int id submit_area 0x7f090039
 int id tabMode 0x7f090008
 int id title 0x7f09002b
 int id top_action_bar 0x7f090020
+int id tv_splash_version 0x7f09003c
 int id up 0x7f090021
 int id useLogo 0x7f09000e
 int id withText 0x7f090013
@@ -339,7 +341,7 @@ int string abc_shareactionprovider_share_with 0x7f0a000c
 int string abc_shareactionprovider_share_with_application 0x7f0a000b
 int string action_settings 0x7f0a000f
 int string app_name 0x7f0a000d
-int string hello_world 0x7f0a000e
+int string version 0x7f0a000e
 int style AppBaseTheme 0x7f0b008b
 int style AppTheme 0x7f0b008c
 int style TextAppearance_AppCompat_Base_CompactMenu_Dialog 0x7f0b0063

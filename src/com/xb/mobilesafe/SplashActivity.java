@@ -1,34 +1,42 @@
 package com.xb.mobilesafe;
 
-import android.support.v7.app.ActionBarActivity;
+import com.xb.mobilesafe.utils.LogUtil;
+
+import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.TextView;
 
-public class SplashActivity extends ActionBarActivity {
+public class SplashActivity extends Activity {
 
+	private final static String TAG="SplashActivity";
+	
+	private TextView tv_splash_version;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
+		//设置版本号
+		tv_splash_version = (TextView) findViewById(R.id.tv_splash_version);
+		tv_splash_version.setText(getString(R.string.version)+getVersionName());
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.splash, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
+	
+	/**
+	 * 得到版本号
+	 * @return String
+	 */
+	private String getVersionName(){
+		//管理手机apk
+		PackageManager pm = getPackageManager();
+		//得到指定apk的功能清单文件
+		try {
+			return pm.getPackageInfo(getPackageName(), 0).versionName;
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+			LogUtil.e(TAG, e.getMessage());
 		}
-		return super.onOptionsItemSelected(item);
+		return "";
 	}
+	
 }
