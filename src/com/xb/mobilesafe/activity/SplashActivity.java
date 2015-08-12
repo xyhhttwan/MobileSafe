@@ -1,10 +1,14 @@
-package com.xb.mobilesafe;
+package com.xb.mobilesafe.activity;
 
 import java.io.File;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.xb.mobilesafe.R;
+import com.xb.mobilesafe.R.id;
+import com.xb.mobilesafe.R.layout;
+import com.xb.mobilesafe.R.string;
 import com.xb.mobilesafe.utils.HttpCallbackListener;
 import com.xb.mobilesafe.utils.HttpUtil;
 import com.xb.mobilesafe.utils.LogUtil;
@@ -18,6 +22,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
@@ -55,7 +60,10 @@ public class SplashActivity extends Activity {
 	private static final int CHECK_ERROR=2;
 	
 	private static final int JSON_ERROR=3;
+	
 	Message msg ;
+	
+	private SharedPreferences sp;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,11 +72,24 @@ public class SplashActivity extends Activity {
 		tv_splash_version = (TextView) findViewById(R.id.tv_splash_version);
 		tv_splash_version.setText(getString(R.string.version)+getVersionName());
 		tv_uplaod_process = (TextView) findViewById(R.id.tv_uplaod_process);
-		//检查版本信息
-		checkUpdate();
-		//动画效果 累世荷塘月色
+		sp = getSharedPreferences("config", MODE_PRIVATE);
+		boolean update = sp.getBoolean("auto_update", false);
+		if(update){
+			//检查版本信息
+			checkUpdate();
+		}else
+		{
+			handler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					enterHome();
+				}
+			}, 2000);
+		}
+		
+		//动画效果 类似荷塘月色
 		AlphaAnimation aa = new AlphaAnimation(0.2f, 1.0f);
-		aa.setStartTime(1000);
+		aa.setDuration(500);
 		findViewById(R.id.rl_root_splash).startAnimation(aa);
 	}
 	

@@ -3,11 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.xb.mobilesafe.HomeActivity" >
+    tools:context="com.xb.mobilesafe.activity.HomeActivity" >
 
     <TextView
         android:id="@+id/tv_function_item"
@@ -20,6 +16,15 @@
         android:gravity="center"
         />
     
+    <com.xb.mobilesafe.ui.textview.FocusedTextView
+        android:id="@+id/tv_home_notic"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textSize="18sp"
+        android:ellipsize="marquee"
+        android:text="邀请好友使用送美女了,每邀请一个新用户美女陪睡一晚"
+        />
     <GridView 
         android:id="@+id/gv_function_item"
         android:layout_width="match_parent"
