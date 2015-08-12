@@ -15,6 +15,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -36,9 +37,14 @@ public class SplashActivity extends Activity {
 
 	private final static String TAG="SplashActivity";
 	private TextView tv_splash_version;
+	//版本号
 	private String version;
+	//描述
 	private String description;
+	//下载地址
 	private String apkurl;
+	//是否强制升级
+	private boolean isForcedUpdate;
 	
 	private TextView tv_uplaod_process;
 	
@@ -72,6 +78,20 @@ public class SplashActivity extends Activity {
 	private void showUpdateDialog(){
 		AlertDialog.Builder builder = new Builder(this);
 		builder.setTitle("新版本升级");
+		//强制升级
+		if(isForcedUpdate){
+			builder.setCancelable(false);
+		}else{
+			builder.setOnCancelListener(new OnCancelListener() {
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					enterHome();
+					dialog.dismiss();
+				}
+			});
+		}
+		
+		
 		builder.setMessage(description);
 		builder.setPositiveButton("立刻升级", new OnClickListener() {
 			@Override
@@ -117,6 +137,7 @@ public class SplashActivity extends Activity {
 					version = (String) obj.get("version");
 					description = (String) obj.get("description");
 					apkurl = (String) obj.get("apkurl");
+					isForcedUpdate = obj.getBoolean("isForcedUpdate");
 					//没有新版本
 					if(getVersionName().equals(version)){
 						msg.what = ENTER_HOME;
@@ -220,6 +241,7 @@ public class SplashActivity extends Activity {
 			@Override
 			public void onFailure(Throwable t, int errorNo, String strMsg) {
 				ShowText.show("下载失败");
+				LogUtil.e(TAG, strMsg);
 				super.onFailure(t, errorNo, strMsg);
 			}
 			//进度
