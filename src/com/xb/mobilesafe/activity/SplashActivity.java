@@ -6,18 +6,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.xb.mobilesafe.R;
-import com.xb.mobilesafe.R.id;
-import com.xb.mobilesafe.R.layout;
-import com.xb.mobilesafe.R.string;
 import com.xb.mobilesafe.utils.HttpCallbackListener;
 import com.xb.mobilesafe.utils.HttpUtil;
 import com.xb.mobilesafe.utils.LogUtil;
 import com.xb.mobilesafe.utils.ShowText;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
@@ -30,7 +27,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.text.StaticLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -89,7 +85,7 @@ public class SplashActivity extends Activity {
 		
 		//动画效果 类似荷塘月色
 		AlphaAnimation aa = new AlphaAnimation(0.2f, 1.0f);
-		aa.setDuration(500);
+		aa.setDuration(800);
 		findViewById(R.id.rl_root_splash).startAnimation(aa);
 	}
 	
@@ -282,6 +278,7 @@ public class SplashActivity extends Activity {
 				tv_uplaod_process.setVisibility(View.GONE);
 				super.onSuccess(t);
 				installAPK(t);
+				
 			}
 			
 			/**
@@ -294,6 +291,7 @@ public class SplashActivity extends Activity {
 			  intent.addCategory("android.intent.category.DEFAULT");
 			  intent.setDataAndType(Uri.fromFile(t), "application/vnd.android.package-archive");
 			  startActivity(intent);
+			  
 			}
 			  
 		});

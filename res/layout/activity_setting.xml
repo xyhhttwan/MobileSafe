@@ -1,7 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?><LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobile="http://schemas.android.com/apk/res/com.xb.mobilesafe"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="#ffffff"
+     >
 
     <TextView
         android:id="@+id/tv_setting_center"
@@ -14,6 +19,9 @@
         android:textSize="22sp" />
     
    		<com.xb.mobilesafe.ui.SettingItemView
+   		    mobile:mtitle="@string/auto_update"
+   		    mobile:desc_on="@string/auto_update_open"
+   		    mobile:desc_off="@string/auto_update_close"
         	android:id="@+id/siv_update"
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content"

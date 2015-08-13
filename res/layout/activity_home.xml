@@ -23,7 +23,7 @@
         android:singleLine="true"
         android:textSize="18sp"
         android:ellipsize="marquee"
-        android:text="邀请好友使用送美女了,每邀请一个新用户美女陪睡一晚"
+        android:text="邀请好友使用送美女了,每邀请一个新用户送美女一枚"
         />
     <GridView 
         android:id="@+id/gv_function_item"

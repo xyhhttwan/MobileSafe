@@ -6,7 +6,6 @@ import com.xb.mobilesafe.ui.SettingItemView;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -39,10 +38,8 @@ public class SettingActivity extends Activity implements OnClickListener{
 		
 		if(auto_uppdate){
 			siv_update.setChecked(true);
-			siv_update.setDes(getString(R.string.auto_update_open));
 		}else{
 			siv_update.setChecked(false);
-			siv_update.setDes(getString(R.string.auto_update_close));
 		}
 		
 		
@@ -56,15 +53,12 @@ public class SettingActivity extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View v) {	
 		Editor editor = sp.edit();
-		
 		//如果选中
 		if(siv_update.isChecked()){
 			siv_update.setChecked(false);
-			siv_update.setDes(getString(R.string.auto_update_close));
 			editor.putBoolean("auto_update", false);
 		}else{
 			siv_update.setChecked(true);
-			siv_update.setDes(getString(R.string.auto_update_open));
 			editor.putBoolean("auto_update", true);
 		}
 		editor.commit();

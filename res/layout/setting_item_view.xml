@@ -10,7 +10,6 @@
         android:layout_marginTop="10dip"
         android:layout_marginStart="10dip"
         android:layout_marginLeft="10dip"
-        android:text="@string/auto_update"
         android:textColor="#000000"
         android:textSize="20sp"
         />
@@ -21,7 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dip"
         android:layout_marginLeft="10dip"
-        android:text="@string/auto_update_close"
         android:textColor="#88000000"
         android:textSize="18sp" 
         android:layout_below="@id/tv_setting_auto_update"
