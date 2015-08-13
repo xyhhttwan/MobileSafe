@@ -66,6 +66,7 @@
             android:textSize="20sp" />
 
         <ImageView
+            android:id="@+id/iv_safe_lock"
             android:layout_width="25dip"
             android:layout_height="25dip"
             android:layout_alignParentRight="true"

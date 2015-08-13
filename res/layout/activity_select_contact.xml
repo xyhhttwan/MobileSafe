@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.xb.mobilesafe.activity.HomeActivity" >
+
+    <TextView
+        android:id="@+id/tv_select_contact"
+        android:layout_width="fill_parent"
+        android:layout_height="55dip"
+        android:text="@string/select_contact_title"
+        android:textSize="22sp"
+        android:textColor="#000000"
+        android:background="#8866ff00"
+        android:gravity="center"
+        />
+    
+   
+    <ListView 
+        android:id="@+id/lv_select_contact"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dip"
+        />
+
+</LinearLayout>

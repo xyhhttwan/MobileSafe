@@ -24,6 +24,8 @@
         android:text="下次重启手机如果发现sim变化\n就会发送报警短信" />
 
         <com.xb.mobilesafe.ui.SettingItemView
+            android:onClick="bind"
+            android:clickable="true"
    		    mobile:mtitle="@string/to_bind_sim"
    		    mobile:desc_on="@string/bind_sim"
    		    mobile:desc_off="@string/un_bind_sim"

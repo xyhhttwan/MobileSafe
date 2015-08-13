@@ -3,6 +3,7 @@ package com.xb.mobilesafe.activity;
 import com.xb.mobilesafe.R;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -14,10 +15,13 @@ public abstract class BaseSetupActivity extends Activity {
 	//1.0定义一个手势识别器
 	private GestureDetector detector;
 	
+	protected SharedPreferences sp;
+	
 	//2.0实现处理事件
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		sp = getSharedPreferences("config", MODE_PRIVATE);
 		//实例化手势识别器
 		detector = new GestureDetector(this,new SimpleOnGestureListener(){
 

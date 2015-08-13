@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 
 public class Setup3Activity extends BaseSetupActivity {
 
@@ -43,5 +44,13 @@ public class Setup3Activity extends BaseSetupActivity {
 		finish();
 		ShowProOverPendingAnim();
 	} 
+	/**
+	 * 启动选择联系人
+	 * @param view
+	 */
+	public void selectContact(View view){
+		Intent intent  = new Intent(this,SelectContanctActivity.class);
+		startActivityForResult(intent, 0);
+	}
 
 }

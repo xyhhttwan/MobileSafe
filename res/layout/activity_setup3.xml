@@ -25,6 +25,9 @@
         android:layout_height="wrap_content" />
 
     <Button
+        android:onClick="selectContact"
+        android:clickable="true"
+        android:id="@+id/bt_select_contact"
         android:background="@drawable/button_bg"
         android:text="选择联系人"
         android:layout_width="fill_parent"
