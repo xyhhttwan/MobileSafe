@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.xb.mobilesafe.activity.HomeActivity" >
+    tools:context="com.xb.mobilesafe.activity.HomeActivity"
+     android:background="@drawable/phone_bg"
+     >
 
     <TextView
         android:id="@+id/tv_select_contact"

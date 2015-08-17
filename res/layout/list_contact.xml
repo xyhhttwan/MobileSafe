@@ -25,7 +25,6 @@
 	    android:id="@+id/tv_contact_phone"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:text="18691832028"
         android:textColor="#000000"
 	    android:textSize="18sp"
 	    android:layout_marginTop="10dip"

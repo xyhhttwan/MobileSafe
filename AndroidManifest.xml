@@ -17,7 +17,19 @@
 	<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 	<!-- 读取联系人权限 -->
 	<uses-permission android:name="android.permission.READ_CONTACTS"/>
-	
+	 <!-- 开机广播检测 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- 发送短信权限 -->
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <!-- 读取短信权限 -->
+	<uses-permission android:name="android.permission.READ_SMS"/>
+	<!-- 接受短信的权限 -->
+	<uses-permission android:name="android.permission.RECEIVE_SMS"/>
+	<!-- 定位权限 -->
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
+    	
     <application
         android:name=".utils.MyApplication"
         android:allowBackup="true"
@@ -30,11 +42,21 @@
 		<!-- 开机广播 -->
 		<receiver android:name="com.xb.mobilesafe.recevier.BootCompleteReceiver">
 		    <intent-filter>
-		        <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+		        <action android:name="android.intent.action.BOOT_COMPLETED"/>
 		    </intent-filter>
 		    </receiver>
+		    
+		<!-- 读取短信的广播 -->
+		<receiver android:name="com.xb.mobilesafe.recevier.SMSReceiver">
+		    <intent-filter android:priority="100"><!-- 权限设高 -->
+		        <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+		    </intent-filter>
+		</receiver>
 		<!-- 广播 -->
-
+		<!-- 服务 -->
+		<!-- GPS服务 -->
+		<service android:name="com.xb.mobilesafe.service.GPSService"/>
+		<!-- 服务end -->
         <!-- 启动页面 -->
         <activity
             android:name=".activity.SplashActivity"

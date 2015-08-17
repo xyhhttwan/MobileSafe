@@ -32,7 +32,7 @@
 	        />
 	    <TextView 
 	        android:id="@+id/tv_safe_phone"
-	        android:text="15249284875"
+	        android:text=""
 	        android:textSize="22sp"
 	        android:textColor="#000000"
 	        android:layout_width="wrap_content"

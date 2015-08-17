@@ -8,12 +8,16 @@ import java.util.Map;
 import com.xb.mobilesafe.R;
 import com.xb.mobilesafe.ui.adapter.SelectContactAdapter;
 import com.xb.mobilesafe.utils.LogUtil;
+import com.xb.mobilesafe.utils.ShowText;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 /**
@@ -21,7 +25,7 @@ import android.widget.ListView;
  * @author baixb
  *
  */
-public class SelectContanctActivity extends Activity {
+public class SelectContanctActivity extends Activity implements OnItemClickListener{
 	
 	private static final String TAG = "SelectContanctActivity";
 
@@ -39,6 +43,7 @@ public class SelectContanctActivity extends Activity {
 		readContacts();
 		adapter =new SelectContactAdapter(this, R.layout.list_contact, contactsList);
 		lv_select_contact.setAdapter(adapter);
+		lv_select_contact.setOnItemClickListener(this);
 		
 	}
 	
@@ -75,6 +80,26 @@ public class SelectContanctActivity extends Activity {
 			}
 	  }
 	}
+	
+	/**
+	 * 点击电话事件
+	 */
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		
+		Map<String, Object> map = contactsList.get(position);
+		String phone  = (String)map.get("phone");
+		LogUtil.e(TAG, "phone:-->"+phone);
+		Intent  intent  = new Intent ();
+		intent.putExtra("phone", phone);
+		setResult(RESULT_OK,intent);
+		finish();
+	}
+	
+	
+	
+	
+	
 	
 	
 	
