@@ -6,7 +6,8 @@ import java.util.Map;
 
 import com.xb.mobilesafe.R;
 import com.xb.mobilesafe.entity.HomeFuntionItem;
-
+import com.xb.mobilesafe.utils.LogUtil;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class HomeItemAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		return 0;
 	}
+	@SuppressLint("ViewHolder")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = View.inflate(context,R.layout.list_item_home, null);

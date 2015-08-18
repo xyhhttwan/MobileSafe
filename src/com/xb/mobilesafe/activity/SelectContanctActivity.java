@@ -8,7 +8,6 @@ import java.util.Map;
 import com.xb.mobilesafe.R;
 import com.xb.mobilesafe.ui.adapter.SelectContactAdapter;
 import com.xb.mobilesafe.utils.LogUtil;
-import com.xb.mobilesafe.utils.ShowText;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,7 +20,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 /**
- * 选择练习人
+ * 选择联系人
  * @author baixb
  *
  */

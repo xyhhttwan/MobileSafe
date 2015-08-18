@@ -29,7 +29,10 @@
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
-    	
+    <!-- 震动需要的权限 -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <!-- 需要监听具体意图和权限；-->
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
     <application
         android:name=".utils.MyApplication"
         android:allowBackup="true"
@@ -52,10 +55,34 @@
 		        <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
 		    </intent-filter>
 		</receiver>
+		<!-- 改为在代码中注册,不然系统启动就会起作用 -->
+		<!-- 打电话广播 -->
+		<!-- <receiver android:name="com.xb.mobilesafe.recevier.OutCallReceiver">
+		    <intent-filter>
+		        <action android:name="android.intent.action.NEW_OUTGOING_CALL"></action>
+		    </intent-filter>
+		</receiver> -->
+		
+		<!-- 锁屏 -->
+		<receiver android:name="com.xb.mobilesafe.recevier.LockScreenRecevier"
+		     android:label="@string/device_admin_lock"
+       		 android:description="@string/device_admin_lock_des"
+       		 android:permission="android.permission.BIND_DEVICE_ADMIN"
+		    >
+		     <meta-data android:name="android.app.device_admin"
+            	android:resource="@xml/device_admin_lock" />
+		    <intent-filter>
+		        <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+		    </intent-filter>
+		    
+		</receiver>
+		
 		<!-- 广播 -->
 		<!-- 服务 -->
 		<!-- GPS服务 -->
 		<service android:name="com.xb.mobilesafe.service.GPSService"/>
+		<!-- 来电服务 -->
+		<service android:name="com.xb.mobilesafe.service.AddressService"/>
 		<!-- 服务end -->
         <!-- 启动页面 -->
         <activity
@@ -84,6 +111,11 @@
         <activity android:name="com.xb.mobilesafe.activity.Setup4Activity"/>
         <!-- 选择联系人 -->
  		<activity android:name="com.xb.mobilesafe.activity.SelectContanctActivity"/>
-        </application>
+       
+ 		<!-- 高级工具 -->
+ 		<activity android:name="com.xb.mobilesafe.activity.AtoolsActivity"/>
+ 		<!-- 号码归属地查询 -->
+ 		<activity android:name="com.xb.mobilesafe.activity.NumberAddressQueryActivity"/>
+ 		</application>
 
 </manifest>

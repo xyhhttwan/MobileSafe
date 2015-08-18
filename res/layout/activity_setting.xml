@@ -26,5 +26,24 @@
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
         />
+   		
+   		<com.xb.mobilesafe.ui.SettingItemView
+   		    mobile:mtitle="@string/show_address"
+   		    mobile:desc_on="@string/show_address_open"
+   		    mobile:desc_off="@string/show_address_close"
+        	android:id="@+id/siv_show_address"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        />
+   		
+   		<com.xb.mobilesafe.ui.SettingPhoneBackground
+   		    mobile:mtitle="@string/phone_address_show_style"
+   		    mobile:desc_on="@string/call_locate_blue"
+   		    mobile:desc_off="@string/call_locate_blue"
+        	android:id="@+id/siv_phone_address_show"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+   		     />
+   		    
 
 </LinearLayout>

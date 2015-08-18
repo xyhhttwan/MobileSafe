@@ -3,15 +3,9 @@ package com.xb.mobilesafe.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.xb.mobilesafe.R;
 import com.xb.mobilesafe.entity.HomeFuntionItem;
 import com.xb.mobilesafe.ui.adapter.HomeItemAdapter;
-import com.xb.mobilesafe.utils.HttpCallbackListener;
-import com.xb.mobilesafe.utils.HttpUtil;
 import com.xb.mobilesafe.utils.LogUtil;
 import com.xb.mobilesafe.utils.ShowText;
 
@@ -19,7 +13,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,7 +28,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.TextView;
 
 public class HomeActivity extends Activity implements OnItemClickListener{
 	
@@ -69,14 +61,79 @@ public class HomeActivity extends Activity implements OnItemClickListener{
 		
 	}
 	
+	String   result ="["
+			+"{\"id\":1,\"name\":\"手机防盗\",\"code\":\"safe\"},"+
+			"{\"id\":2,\"name\":\"通讯卫士\",\"code\":\"callmsgsafe\"},"+
+			"{\"id\":3,\"name\":\"软件管理\",\"code\":\"app\"},"+
+			"{\"id\":4,\"name\":\"进程管理\",\"code\":\"taskmanager\"},"+
+			"{\"id\":5,\"name\":\"流量统计\",\"code\":\"netmanager\"},"+
+			"{\"id\":6,\"name\":\"缓存清理\",\"code\":\"sysoptimize\"},"+
+			"{\"id\":7,\"name\":\"高级工具\",\"code\":\"atools\"},"+
+			"{\"id\":8,\"name\":\"手机杀毒\",\"code\":\"trojan\"},"+
+			"{\"id\":9,\"name\":\"设置中心\",\"code\":\"settings\"}]";
+	
 	/**
 	 * 获取全部的功能列表
 	 */
 	private void getFuntionItem() {
-		HttpUtil.sendHttpRequest(getString(R.string.homeFuntionItemUrl), new HttpCallbackListener() {
+		
+		list = new ArrayList<HomeFuntionItem>();
+		HomeFuntionItem  homeitem = new HomeFuntionItem();
+		homeitem.setCode("safe");
+		homeitem.setId(1);
+		homeitem.setName("手机防盗");
+		list.add(homeitem);
+		homeitem = new HomeFuntionItem();
+		homeitem.setCode("callmsgsafe");
+		homeitem.setId(2);
+		homeitem.setName("通讯卫士");
+		list.add(homeitem);
+		
+		homeitem = new HomeFuntionItem();
+		homeitem.setCode("app");
+		homeitem.setId(3);
+		homeitem.setName("软件管理");
+		list.add(homeitem);
+		homeitem = new HomeFuntionItem();
+		homeitem.setCode("taskmanager");
+		homeitem.setId(4);
+		homeitem.setName("进程管理");
+		list.add(homeitem);
+		homeitem = new HomeFuntionItem();
+		homeitem.setCode("netmanager");
+		homeitem.setId(5);
+		homeitem.setName("流量统计");
+		list.add(homeitem);
+		homeitem = new HomeFuntionItem();
+		homeitem.setCode("sysoptimize");
+		homeitem.setId(6);
+		homeitem.setName("缓存清理");
+		list.add(homeitem);
+		homeitem = new HomeFuntionItem();
+		homeitem.setCode("atools");
+		homeitem.setId(7);
+		homeitem.setName("高级工具");
+		list.add(homeitem);
+		homeitem = new HomeFuntionItem();
+		homeitem.setCode("trojan");
+		homeitem.setId(8);
+		homeitem.setName("手机杀毒");
+		list.add(homeitem);
+		homeitem = new HomeFuntionItem();
+		homeitem.setCode("settings");
+		homeitem.setId(9);
+		homeitem.setName("设置中心");
+		list.add(homeitem);
+		
+		msg.what=SUCCESS;
+		handler.sendMessage(msg);
+		
+		
+	/*	HttpUtil.sendHttpRequest(getString(R.string.homeFuntionItemUrl), new HttpCallbackListener() {
 			@Override
 			public void onFinish(String response) {
 				LogUtil.e(TAG, "<--成功回调-->");
+				
 				try {
 					JSONArray jsonArray = new JSONArray(response);
 					HomeFuntionItem homeitem;
@@ -101,11 +158,31 @@ public class HomeActivity extends Activity implements OnItemClickListener{
 			
 			@Override
 			public void onError(Exception e) {
+				try {
+					JSONArray jsonArray = new JSONArray(result);
+					HomeFuntionItem homeitem;
+					list = new ArrayList<HomeFuntionItem>();
+					for(int i =0;i<jsonArray.length();i++){
+						Object item = jsonArray.get(i);
+						JSONObject obj = new JSONObject(item.toString());
+						homeitem = new HomeFuntionItem();
+						homeitem.setId(obj.getInt("id"));
+						homeitem.setName(obj.getString("name"));
+						homeitem.setCode(obj.getString("code"));
+						list.add(homeitem);
+					}
+					msg.what=SUCCESS;
+					handler.sendMessage(msg);
+				} catch (JSONException ex) {
+					ex.printStackTrace();
+					LogUtil.e(TAG, ex.getMessage());
+					ShowText.show("JSON解析出错");
+				}
 				msg.what=ERROR;
 				handler.sendMessage(msg);
 				LogUtil.e(TAG, "回调失败-->"+e.getMessage());
 			}
-		});
+		});*/
 	}
 	
 	@SuppressLint("HandlerLeak")
@@ -120,7 +197,9 @@ public class HomeActivity extends Activity implements OnItemClickListener{
 				break;
 			case ERROR:
 				//错误操作
-				
+				LogUtil.e(TAG,list.size()+"");
+				adapter = new HomeItemAdapter(HomeActivity.this,list);
+				gv_function_item.setAdapter(adapter);
 				break;
 			default:
 				break;
@@ -142,6 +221,9 @@ public class HomeActivity extends Activity implements OnItemClickListener{
 			break;
 		case 0://进入手机防盗
 			showLostFindDialog();
+			break;
+		case 6://高级工具
+			AtoolsActivity.actionStart(this);
 			break;
 		default:
 			break;

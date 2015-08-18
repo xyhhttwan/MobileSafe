@@ -6,13 +6,17 @@ import com.xb.mobilesafe.utils.LogUtil;
 import com.xb.mobilesafe.utils.SMSUtils;
 import com.xb.mobilesafe.utils.ShowText;
 
+import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
+import android.view.View;
 
 /**
  * 短信接收
@@ -23,10 +27,13 @@ public class SMSReceiver extends BroadcastReceiver {
 	
 	private static final String TAG = "SMSReceiver";
 	private SharedPreferences sp;
+	
+	private Context contexts;
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		sp =context.getSharedPreferences("config", Context.MODE_PRIVATE);
-		ShowText.show("====");
+		dpm =(DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+		contexts = context;
 		//接收短信的代码
 		Object[] objs = (Object[]) intent.getExtras().get("pdus");
 		for(Object ob :objs){
@@ -37,7 +44,6 @@ public class SMSReceiver extends BroadcastReceiver {
 			ShowText.show(sender);
 			////判断是否开启了防盗保护
 			boolean safeStatus = sp.getBoolean("safeStatus", false);
-			ShowText.show(safeStatus+"");
 			if(safeStatus){
 				//获取防盗安全号码
 				String safePhone  = sp.getString("safePhone", "");
@@ -73,6 +79,7 @@ public class SMSReceiver extends BroadcastReceiver {
 						LogUtil.i(TAG, "远程清除数据");
 					}
 					else if("#*lockscreen*#".equals(body)){
+						lockScrenn();
 						//远程锁屏
 						LogUtil.i(TAG, "远程锁屏");
 					}
@@ -83,5 +90,40 @@ public class SMSReceiver extends BroadcastReceiver {
 			
 		}
 	}
+	
+	private DevicePolicyManager dpm;
+	private void lockScrenn(){
+		ComponentName deviceComName = new ComponentName(contexts,LockScreenRecevier.class);
+		if(dpm.isAdminActive(deviceComName)){
+			dpm.lockNow();
+			dpm.resetPassword("123", 0);
+		}else{
+			openDeviceAdmin(deviceComName);
+		}
+		
+	}
+	
+	public void openDeviceAdmin(ComponentName deviceComName){
+		//声明一个意图，作用是开启设备的超级管理员
+		  Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+          intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, deviceComName);
+         //劝说用户开启管理员
+          intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,
+                contexts.getString(R.string.device_admin_lock_des));
+         contexts.startActivity(intent);
+	}
+	
+	
+	public void uninstall(View view){
+		 ComponentName cn = new ComponentName(contexts, LockScreenRecevier.class);
+		//可以移除管理员
+		dpm.removeActiveAdmin(cn);
+		Intent intent = new Intent();
+		intent.setAction("android.intent.action.UNINSTALL_PACKAGE");
+		intent.addCategory("android.intent.category.DEFAULT");
+		intent.setData(Uri.parse("package:"+contexts.getPackageName()));
+		contexts.startActivity(intent);
+	}
+	
 
 }

@@ -1,6 +1,9 @@
 package com.xb.mobilesafe.activity;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,13 +85,48 @@ public class SplashActivity extends Activity {
 				}
 			}, 2000);
 		}
+		//拷贝数据库
 		
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				copyDB();
+			}
+		}).start();
 		//动画效果 类似荷塘月色
 		AlphaAnimation aa = new AlphaAnimation(0.2f, 1.0f);
 		aa.setDuration(800);
 		findViewById(R.id.rl_root_splash).startAnimation(aa);
 	}
-	
+	//data/data/com.xb.mobilesafe/files/address.db
+	private void copyDB() {
+		LogUtil.e(TAG, "begain copy address.db");
+		try {
+			//getFilesDir()==data/data/com.xb.mobilesafe/files
+			File file  = new File(getFilesDir(),"address.db");
+			if(file.exists() && file.length()>0){
+				LogUtil.e(TAG, "address.db已经存在.");
+				return ;
+			}
+			
+			InputStream is = getAssets().open("address.db");
+			//创建文件
+			FileOutputStream  fos = new FileOutputStream(file);
+			
+			//往文件里面写东西
+			int len  = 0;
+			byte [] buffer = new byte[1024];
+			while ((len = is.read(buffer))!=-1) {
+				fos.write(buffer,0,len);
+			}
+			is.close();
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			LogUtil.e(TAG, e.getMessage());
+		}
+	}
+
 	/**
 	 * 显示升级对话框
 	 */

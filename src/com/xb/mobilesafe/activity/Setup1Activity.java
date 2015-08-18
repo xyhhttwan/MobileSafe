@@ -2,13 +2,10 @@ package com.xb.mobilesafe.activity;
 
 import com.xb.mobilesafe.R;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.service.voice.VoiceInteractionService;
 import android.view.KeyEvent;
-import android.view.View;
 
 /**
  * 向导第一步
