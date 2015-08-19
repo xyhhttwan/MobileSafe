@@ -3,6 +3,7 @@
     package="com.xb.mobilesafe"
     android:versionCode="1"
     android:versionName="1.0" >
+    
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -31,8 +32,10 @@
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
     <!-- 震动需要的权限 -->
     <uses-permission android:name="android.permission.VIBRATE"/>
-    <!-- 需要监听具体意图和权限；-->
+    <!-- 需要监听电话具体意图和权限；-->
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+   <!-- 系统和电话一样的窗体权限 -->
+   <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <application
         android:name=".utils.MyApplication"
         android:allowBackup="true"
