@@ -2,8 +2,8 @@ package com.xb.mobilesafe.activity;
 
 
 import com.xb.mobilesafe.R;
-import com.xb.mobilesafe.R.raw;
 import com.xb.mobilesafe.service.AddressService;
+import com.xb.mobilesafe.service.CallSmsBlackNumberService;
 import com.xb.mobilesafe.ui.SettingItemView;
 import com.xb.mobilesafe.ui.SettingPhoneBackground;
 import com.xb.mobilesafe.utils.ServiceUtils;
@@ -17,7 +17,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.location.Address;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,9 +28,9 @@ import android.view.View.OnClickListener;
  */
 public class SettingActivity extends Activity implements OnClickListener{
     
-	//自定义组合件
+	//自动更新
 	private SettingItemView siv_update;
-	
+	//归属地
 	private SettingItemView show_address;
 	
 	private SettingPhoneBackground callAddressBackground;
@@ -40,9 +39,11 @@ public class SettingActivity extends Activity implements OnClickListener{
 	//是否自动更新
 	private boolean auto_uppdate;
 	
-	private boolean showAddress;
-	
+	private SettingItemView siv_isBlackNumber;
+	//来电归属地服务
 	private Intent addressIntent ;
+	//黑名单
+	private Intent callSmsSafeIntent;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,7 +61,7 @@ public class SettingActivity extends Activity implements OnClickListener{
 		/*********号码归属地相关代码	*************/
 		show_address = (SettingItemView) findViewById(R.id.siv_show_address);
 		show_address.setOnClickListener(this);
-		//判断还奥玛归属地服务是否开启
+		//判断号码归属地服务是否开启
 		if(ServiceUtils.isRunningService("com.xb.mobilesafe.service.AddressService")){
 			show_address.setChecked(true);
 		}else{
@@ -74,6 +75,17 @@ public class SettingActivity extends Activity implements OnClickListener{
 		callAddressBackground.setDes(items[phone_address_background]);
 		callAddressBackground.setOnClickListener(this);
 		/********号码归属地提示框相关代码**********/
+		
+		/****黑名单***/
+		siv_isBlackNumber  = (SettingItemView) findViewById(R.id.siv_isBlackNumber);
+		siv_isBlackNumber.setOnClickListener(this);
+		
+		if(ServiceUtils.isRunningService("com.xb.mobilesafe.service.CallSmsBlackNumberService")){
+			siv_isBlackNumber.setChecked(true);
+		}else{
+			siv_isBlackNumber.setChecked(false);
+		}
+		/****黑名单***/
 	}
 	
 	public static void actionStart(Context context){
@@ -128,6 +140,19 @@ public class SettingActivity extends Activity implements OnClickListener{
 			});
 			builder.setNegativeButton("取消", null);
 			builder.show();
+			break;
+		case R.id.siv_isBlackNumber:
+			callSmsSafeIntent = new Intent(this,CallSmsBlackNumberService.class);
+			if(siv_isBlackNumber.isChecked()){
+				siv_isBlackNumber.setChecked(false);
+				stopService(callSmsSafeIntent);
+				ShowText.show(ServiceUtils.isRunningService("com.xb.mobilesafe.service.CallSmsBlackNumberService")+"2");
+
+			}else{
+				siv_isBlackNumber.setChecked(true);
+				startService(callSmsSafeIntent);
+				ShowText.show(ServiceUtils.isRunningService("com.xb.mobilesafe.service.CallSmsBlackNumberService")+"1");
+			}
 			break;
 		default:
 			break;

@@ -44,6 +44,13 @@
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
    		     />
-   		    
+   		<com.xb.mobilesafe.ui.SettingItemView
+   		    mobile:mtitle="@string/is_black_number"
+   		    mobile:desc_on="@string/is_black_number_open"
+   		    mobile:desc_off="@string/is_black_number_close"
+        	android:id="@+id/siv_isBlackNumber"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        />	    
 
 </LinearLayout>

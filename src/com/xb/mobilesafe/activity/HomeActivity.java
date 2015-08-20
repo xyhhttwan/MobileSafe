@@ -222,6 +222,9 @@ public class HomeActivity extends Activity implements OnItemClickListener{
 		case 0://进入手机防盗
 			showLostFindDialog();
 			break;
+		case 1://通讯卫士
+			CallSmsSafeActivity.actionStart(this);
+			break;
 		case 6://高级工具
 			AtoolsActivity.actionStart(this);
 			break;

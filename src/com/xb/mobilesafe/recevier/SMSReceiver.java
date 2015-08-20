@@ -41,7 +41,6 @@ public class SMSReceiver extends BroadcastReceiver {
 			//发送号码
 			String sender = message.getDisplayOriginatingAddress();
 			String body   = message.getMessageBody();
-			ShowText.show(sender);
 			////判断是否开启了防盗保护
 			boolean safeStatus = sp.getBoolean("safeStatus", false);
 			if(safeStatus){

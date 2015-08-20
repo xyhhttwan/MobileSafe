@@ -20,7 +20,9 @@
     <string name="call_locate_blue">卫士蓝</string> 
     <string name="call_locate_gray">金属灰</string>
     <string name="call_locate_green">苹果绿</string>
-    <string name="kkkk">kk</string>
+    <string name="is_black_number">是否开启黑名单</string>
+    <string name="is_black_number_open">黑名单已开启</string>
+   <string name="is_black_number_close">黑名单已关闭</string>
    
     <!-- 手机防盗 -->
     <string name="to_bind_sim">点击绑定sim卡</string>

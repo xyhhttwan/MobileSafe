@@ -86,6 +86,8 @@
 		<service android:name="com.xb.mobilesafe.service.GPSService"/>
 		<!-- 来电服务 -->
 		<service android:name="com.xb.mobilesafe.service.AddressService"/>
+		<!-- 黑名单服务 -->
+		<service android:name="com.xb.mobilesafe.service.CallSmsBlackNumberService"></service>
 		<!-- 服务end -->
         <!-- 启动页面 -->
         <activity
@@ -119,6 +121,8 @@
  		<activity android:name="com.xb.mobilesafe.activity.AtoolsActivity"/>
  		<!-- 号码归属地查询 -->
  		<activity android:name="com.xb.mobilesafe.activity.NumberAddressQueryActivity"/>
+ 		<!-- 通讯卫士 -->
+ 		<activity android:name="com.xb.mobilesafe.activity.CallSmsSafeActivity"/>
  		</application>
 
 </manifest>
