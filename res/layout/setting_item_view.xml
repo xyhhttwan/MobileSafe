@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="68dip"
+        >
+    <TextView 
+        android:id="@+id/tv_setting_auto_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:layout_marginStart="10dip"
+        android:layout_marginLeft="10dip"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        />
+    
+    <TextView 
+        android:id="@+id/tv_setting_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dip"
+        android:layout_marginLeft="10dip"
+        android:textColor="#88000000"
+        android:textSize="18sp" 
+        android:layout_below="@id/tv_setting_auto_update"
+       />
+    
+    	<CheckBox 
+    	    android:id="@+id/cb_setting_checked"
+    	    android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:layout_marginEnd="10dip"
+            android:focusable="false"
+            android:clickable="false"
+            />
+    	  <View 
+    	      android:id="@+id/v_setting_line"
+    	      android:layout_width="fill_parent"
+    	      android:layout_height="0.2dip"
+    	      android:layout_marginLeft="5dip"
+              android:layout_marginRight="5dip"
+    	      android:layout_alignParentBottom="true"
+    	      android:background="#000000"
+    	      />
+    </RelativeLayout>
+

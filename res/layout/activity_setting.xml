@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobile="http://schemas.android.com/apk/res/com.xb.mobilesafe"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="#ffffff"
+     >
+
+    <TextView
+        android:id="@+id/tv_setting_center"
+        android:layout_width="fill_parent"
+        android:layout_height="55dip"
+        android:background="#8866ff00"
+        android:gravity="center"
+        android:text="@string/settingCenter"
+        android:textColor="#000000"
+        android:textSize="22sp" />
+    
+   		<com.xb.mobilesafe.ui.SettingItemView
+   		    mobile:mtitle="@string/auto_update"
+   		    mobile:desc_on="@string/auto_update_open"
+   		    mobile:desc_off="@string/auto_update_close"
+        	android:id="@+id/siv_update"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        />
+   		
+   		<com.xb.mobilesafe.ui.SettingItemView
+   		    mobile:mtitle="@string/show_address"
+   		    mobile:desc_on="@string/show_address_open"
+   		    mobile:desc_off="@string/show_address_close"
+        	android:id="@+id/siv_show_address"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        />
+   		
+   		<com.xb.mobilesafe.ui.SettingPhoneBackground
+   		    mobile:mtitle="@string/phone_address_show_style"
+   		    mobile:desc_on="@string/call_locate_blue"
+   		    mobile:desc_off="@string/call_locate_blue"
+        	android:id="@+id/siv_phone_address_show"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+   		     />
+   		<com.xb.mobilesafe.ui.SettingItemView
+   		    mobile:mtitle="@string/is_black_number"
+   		    mobile:desc_on="@string/is_black_number_open"
+   		    mobile:desc_off="@string/is_black_number_close"
+        	android:id="@+id/siv_isBlackNumber"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        />	    
+
+</LinearLayout>

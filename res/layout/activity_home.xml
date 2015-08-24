@@ -2,15 +2,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.xb.mobilesafe.HomeActivity" >
+    android:orientation="vertical"
+    tools:context="com.xb.mobilesafe.activity.HomeActivity" >
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_function_item"
+        android:layout_width="fill_parent"
+        android:layout_height="55dip"
+        android:text="@string/funtionlist"
+        android:textSize="22sp"
+        android:textColor="#000000"
+        android:background="#8866ff00"
+        android:gravity="center"
+        />
+    
+    <com.xb.mobilesafe.ui.textview.FocusedTextView
+        android:id="@+id/tv_home_notic"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:singleLine="true"
+        android:textSize="18sp"
+        android:ellipsize="marquee"
+        android:text="邀请好友使用送美女了,每邀请一个新用户送美女一枚"
+        />
+    <GridView 
+        android:id="@+id/gv_function_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="3"
+        android:layout_marginTop="10dip"
+        />
 
 </LinearLayout>

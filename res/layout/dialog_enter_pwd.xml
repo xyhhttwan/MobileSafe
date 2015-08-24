@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dip"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="#ffffff"
+     >
+    
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:text="请输入密码"
+        android:textColor="#000000"
+        android:background="#66ff6600"
+        android:textSize="22sp"
+        android:gravity="center"
+        />
+    <EditText 
+        android:id="@+id/et_set_password"
+        android:inputType="textPassword"
+        android:hint="请输入密码"
+        android:layout_width="280dip"
+        android:layout_height="wrap_content"
+        />
+     <LinearLayout 
+         android:layout_width="300dip"
+         android:layout_height="wrap_content"
+         android:gravity="center"
+         android:layout_marginBottom="5dip"
+         >
+         <Button 
+             android:id="@+id/bt_set_pwd_ok"
+             android:text="确定"
+             android:layout_height="wrap_content"
+             android:layout_width="140dip"
+             android:background="@drawable/button_select"
+           />
+            <Button 
+             android:id="@+id/bt_set_pwd_cancel"
+             android:text="取消"
+             android:layout_height="wrap_content"
+             android:layout_width="140dip"
+             android:background="@drawable/button_select"
+           />
+     </LinearLayout>
+
+</LinearLayout>

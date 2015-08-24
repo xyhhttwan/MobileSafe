@@ -1,22 +1,28 @@
-package com.xb.mobilesafe;
+package com.xb.mobilesafe.activity;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.xb.mobilesafe.R;
 import com.xb.mobilesafe.utils.HttpCallbackListener;
 import com.xb.mobilesafe.utils.HttpUtil;
 import com.xb.mobilesafe.utils.LogUtil;
 import com.xb.mobilesafe.utils.ShowText;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
@@ -24,7 +30,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.text.StaticLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -36,9 +41,14 @@ public class SplashActivity extends Activity {
 
 	private final static String TAG="SplashActivity";
 	private TextView tv_splash_version;
+	//版本号
 	private String version;
+	//描述
 	private String description;
+	//下载地址
 	private String apkurl;
+	//是否强制升级
+	private boolean isForcedUpdate;
 	
 	private TextView tv_uplaod_process;
 	
@@ -49,7 +59,10 @@ public class SplashActivity extends Activity {
 	private static final int CHECK_ERROR=2;
 	
 	private static final int JSON_ERROR=3;
+	
 	Message msg ;
+	
+	private SharedPreferences sp;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,20 +71,82 @@ public class SplashActivity extends Activity {
 		tv_splash_version = (TextView) findViewById(R.id.tv_splash_version);
 		tv_splash_version.setText(getString(R.string.version)+getVersionName());
 		tv_uplaod_process = (TextView) findViewById(R.id.tv_uplaod_process);
-		//检查版本信息
-		checkUpdate();
-		//动画效果 累世荷塘月色
+		sp = getSharedPreferences("config", MODE_PRIVATE);
+		boolean update = sp.getBoolean("auto_update", false);
+		if(update){
+			//检查版本信息
+			checkUpdate();
+		}else
+		{
+			handler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					enterHome();
+				}
+			}, 2000);
+		}
+		//拷贝数据库
+		
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				copyDB();
+			}
+		}).start();
+		//动画效果 类似荷塘月色
 		AlphaAnimation aa = new AlphaAnimation(0.2f, 1.0f);
-		aa.setStartTime(1000);
+		aa.setDuration(800);
 		findViewById(R.id.rl_root_splash).startAnimation(aa);
 	}
-	
+	//data/data/com.xb.mobilesafe/files/address.db
+	private void copyDB() {
+		LogUtil.e(TAG, "begain copy address.db");
+		try {
+			//getFilesDir()==data/data/com.xb.mobilesafe/files
+			File file  = new File(getFilesDir(),"address.db");
+			if(file.exists() && file.length()>0){
+				LogUtil.e(TAG, "address.db已经存在.");
+				return ;
+			}
+			
+			InputStream is = getAssets().open("address.db");
+			//创建文件
+			FileOutputStream  fos = new FileOutputStream(file);
+			
+			//往文件里面写东西
+			int len  = 0;
+			byte [] buffer = new byte[1024];
+			while ((len = is.read(buffer))!=-1) {
+				fos.write(buffer,0,len);
+			}
+			is.close();
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			LogUtil.e(TAG, e.getMessage());
+		}
+	}
+
 	/**
 	 * 显示升级对话框
 	 */
 	private void showUpdateDialog(){
 		AlertDialog.Builder builder = new Builder(this);
 		builder.setTitle("新版本升级");
+		//强制升级
+		if(isForcedUpdate){
+			builder.setCancelable(false);
+		}else{
+			builder.setOnCancelListener(new OnCancelListener() {
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					enterHome();
+					dialog.dismiss();
+				}
+			});
+		}
+		
+		
 		builder.setMessage(description);
 		builder.setPositiveButton("立刻升级", new OnClickListener() {
 			@Override
@@ -117,6 +192,7 @@ public class SplashActivity extends Activity {
 					version = (String) obj.get("version");
 					description = (String) obj.get("description");
 					apkurl = (String) obj.get("apkurl");
+					isForcedUpdate = obj.getBoolean("isForcedUpdate");
 					//没有新版本
 					if(getVersionName().equals(version)){
 						msg.what = ENTER_HOME;
@@ -220,6 +296,7 @@ public class SplashActivity extends Activity {
 			@Override
 			public void onFailure(Throwable t, int errorNo, String strMsg) {
 				ShowText.show("下载失败");
+				LogUtil.e(TAG, strMsg);
 				super.onFailure(t, errorNo, strMsg);
 			}
 			//进度
@@ -239,6 +316,7 @@ public class SplashActivity extends Activity {
 				tv_uplaod_process.setVisibility(View.GONE);
 				super.onSuccess(t);
 				installAPK(t);
+				
 			}
 			
 			/**
@@ -251,6 +329,7 @@ public class SplashActivity extends Activity {
 			  intent.addCategory("android.intent.category.DEFAULT");
 			  intent.setDataAndType(Uri.fromFile(t), "application/vnd.android.package-archive");
 			  startActivity(intent);
+			  
 			}
 			  
 		});
