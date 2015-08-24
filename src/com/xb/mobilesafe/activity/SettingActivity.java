@@ -146,12 +146,10 @@ public class SettingActivity extends Activity implements OnClickListener{
 			if(siv_isBlackNumber.isChecked()){
 				siv_isBlackNumber.setChecked(false);
 				stopService(callSmsSafeIntent);
-				ShowText.show(ServiceUtils.isRunningService("com.xb.mobilesafe.service.CallSmsBlackNumberService")+"2");
 
 			}else{
 				siv_isBlackNumber.setChecked(true);
 				startService(callSmsSafeIntent);
-				ShowText.show(ServiceUtils.isRunningService("com.xb.mobilesafe.service.CallSmsBlackNumberService")+"1");
 			}
 			break;
 		default:

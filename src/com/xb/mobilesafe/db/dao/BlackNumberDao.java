@@ -52,8 +52,13 @@ public class BlackNumberDao {
 	public boolean find(String number){
 		LogUtil.e(TAG, "find :"+number);
 		db = dbOpeanHelper.getReadableDatabase();
-		String sql ="select count(*) from blackNumber where phone=?";
-		Cursor cursor = db.rawQuery(sql,new String[]{number});
+		String bumber2 = number ;
+		if(number.startsWith("+86")){
+			bumber2 = number.substring(2,number.length()-1);
+		}
+		String sql ="select count(*) from blackNumber where phone=? or phone =?";
+		LogUtil.e(TAG, "sql:"+sql);
+		Cursor cursor = db.rawQuery(sql,new String[]{number,bumber2});
 		boolean result =false;
 		if(cursor.moveToNext()){
 			result= true;
@@ -67,8 +72,13 @@ public class BlackNumberDao {
 	public String getModeByPhone(String phone){
 		LogUtil.e(TAG, "getModeByPhone :"+phone);
 		db = dbOpeanHelper.getReadableDatabase();
-		String sql ="selet mode from blackNumber where phone =?";
-		Cursor cursor = db.rawQuery(sql,new String[]{phone});
+		String bumber2 = phone ;
+		if(phone.startsWith("+86")){
+			bumber2 = phone.substring(2,phone.length()-1);
+		}
+		LogUtil.e(TAG, "bumber2:"+bumber2);
+		String sql ="select mode from blackNumber where phone =? or phone =?";
+		Cursor cursor = db.rawQuery(sql,new String[]{phone,bumber2});
 		String  mode = null;
 		if(cursor.moveToNext()){
 			mode = cursor.getString(0);
@@ -112,6 +122,11 @@ public class BlackNumberDao {
 	 * @return List<Map<String, Object>>
 	 */
 	public List<Map<String, Object>> getALLBlankNumber(){
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		db = dbOpeanHelper.getReadableDatabase();
 		String sql ="select * from blackNumber order by id desc ";
 		Cursor cursor = db.rawQuery(sql, null);
@@ -133,6 +148,61 @@ public class BlackNumberDao {
 		LogUtil.e(TAG, list.size()+"");
 		return list;
 		
+	}
+	
+	/**
+	 * 查询全部的黑名单信息
+	 * @return List<Map<String, Object>>
+	 */
+	public List<Map<String, Object>> getBlankNumberByPager(int offset,int maxNum){
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		db = dbOpeanHelper.getReadableDatabase();
+		String sql ="select * from blackNumber   order  by id desc  limit ? offset ? ";
+		Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(maxNum),String.valueOf(offset)});
+		Map<String, Object> map;
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		while(cursor.moveToNext()){
+			map = new HashMap<>();
+			int id    = cursor.getInt(cursor.getColumnIndex("id"));
+			LogUtil.e(TAG, "id:"+id);
+			map.put("id", id);
+			String number = cursor.getString(cursor.getColumnIndex("phone"));
+			map.put("number", number);
+			String name   = cursor.getString(cursor.getColumnIndex("name"));
+			map.put("name", name);
+			String mode   = cursor.getString(cursor.getColumnIndex("mode"));
+			map.put("mode", mode);
+			list.add(map);
+		}
+		LogUtil.e(TAG, "sql:"+sql);
+		return list;
+		
+	}
+	
+	public int getCounts(){
+		db = dbOpeanHelper.getReadableDatabase();
+		String sql ="select count(*)  from blackNumber ";
+		int result=0;
+		Cursor cursor=null;
+		try {
+			cursor = db.rawQuery(sql,null);
+			if(cursor.moveToFirst()){
+				result= cursor.getInt(0);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			LogUtil.e(TAG, "getCounts:"+e.getMessage());
+			return 0;
+		}finally {
+			if(null !=cursor){
+				cursor.close();
+			}
+		}
+		return result;
 	}
 
 }

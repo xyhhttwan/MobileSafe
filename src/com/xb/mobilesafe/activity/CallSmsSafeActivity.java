@@ -22,11 +22,14 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -49,6 +52,13 @@ public class CallSmsSafeActivity extends Activity implements OnItemClickListener
 	
 	List<Map<String, Object>> list  ;
 	
+	private LinearLayout pb_process;
+	
+	private  int offset=0;
+	private  int maxNo=10;
+	
+	private int counts =0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,13 +67,69 @@ public class CallSmsSafeActivity extends Activity implements OnItemClickListener
 		tv_no_black_number = (TextView) findViewById(R.id.tv_no_black_number);
 		
 		dao = new BlackNumberDao();
-		list = dao.getALLBlankNumber();
-		tv_no_black_number.setText("共"+list.size()+"个黑名单");
-		blackNumberItemAdapter = new BlackNumberItemAdapter
-				(this,dao,list,handler);
-		lv_call_sms_safe.setAdapter(blackNumberItemAdapter);
-		
 		lv_call_sms_safe.setOnItemClickListener(this);
+		
+		//等待条
+		pb_process = (LinearLayout) findViewById(R.id.pb_process);
+
+		fillData();
+		
+		counts = dao.getCounts();
+		LogUtil.e(TAG, "counts:"+counts);
+		tv_no_black_number.setText("共"+counts+"个黑名单");
+		
+		
+		//listView 滚动事件
+		lv_call_sms_safe.setOnScrollListener(new OnScrollListener() {
+			
+			//滚动状态发生变化的时候调用
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				int lastposition = lv_call_sms_safe.getLastVisiblePosition();
+				//滑动到最后一条数据了
+				if(lastposition==(list.size()-1)){
+					offset += maxNo;
+					fillData();
+				}
+			}
+			//滚动的时候调用
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				
+			}
+		});
+		
+		
+	
+		
+	}
+
+	private void fillData() {
+		pb_process.setVisibility(View.VISIBLE);
+		new Thread(){
+			public void run() {
+				if(null ==list){
+					list = dao.getBlankNumberByPager(offset, maxNo);
+				}else{
+					list.addAll(dao.getBlankNumberByPager(offset, maxNo));
+				}
+				
+				runOnUiThread(new Runnable() {
+					public void run() {
+						if(null==blackNumberItemAdapter){
+							blackNumberItemAdapter = new BlackNumberItemAdapter
+									(CallSmsSafeActivity.this,dao,list,handler);
+							lv_call_sms_safe.setAdapter(blackNumberItemAdapter);
+						}else{
+							
+							blackNumberItemAdapter.notifyDataSetChanged();
+						}
+						pb_process.setVisibility(View.INVISIBLE);
+					}
+				});
+			}
+			;
+		}.start();
 	}
 	
 	public static void actionStart(Context context){
@@ -200,7 +266,8 @@ public class CallSmsSafeActivity extends Activity implements OnItemClickListener
 	};
 	public  void  adapterChage() {
 		blackNumberItemAdapter.notifyDataSetChanged();
-		tv_no_black_number.setText("共"+list.size()+"个黑名单");
+		counts = dao.getCounts();
+		tv_no_black_number.setText("共"+counts+"个黑名单");
 	}
 	
 	private  int id;

@@ -36,6 +36,16 @@
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
    <!-- 系统和电话一样的窗体权限 -->
    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+   <!-- 挂断电话所需要的权限 -->
+   <uses-permission android:name="android.permission.MODIFY_PHONE_STATE"/>  
+   <!-- 读取通话记录 -->
+   <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+   <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
+   <!-- 写sms -->
+   <uses-permission android:name="android.permission.WRITE_SMS"/>
+   <!-- 读短信 -->
+   <uses-permission android:name="android.permission.READ_SMS"/> 
+   
     <application
         android:name=".utils.MyApplication"
         android:allowBackup="true"
